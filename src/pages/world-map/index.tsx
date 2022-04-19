@@ -3,9 +3,20 @@ import * as am5 from "@amcharts/amcharts5";
 import * as am5map from "@amcharts/amcharts5/map";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
 import am5geodata_worldLow from "@amcharts/amcharts5-geodata/worldLow";
-import "./index.css"
+import "./index.scss"
+import { useGetCountry } from '../../services/countries/useGetCountry';
 
-const WorldMap = () => {
+type WorldMapProps = {}
+
+interface DataContext {
+    geometryType: string,
+    id: string,
+    madeFromGeoData: boolean,
+    name: string
+  }
+  
+
+const WorldMap = ({ }: WorldMapProps): JSX.Element => {
 
     useEffect(() => {
 
@@ -41,9 +52,12 @@ const WorldMap = () => {
             fill: am5.color(0x677935)
         });
 
-        chart.events.on("click", (ev) => {
-            console.log(ev)
-            console.log(chart.invert(ev.point))
+        polygonSeries.mapPolygons.template.events.on("click", (ev) => {
+
+            let countryCode: string = Object(ev?.target?.dataItem?.dataContext)?.code;
+
+            useGetCountry(countryCode)
+           
         });
     }, [])
 
