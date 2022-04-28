@@ -4,19 +4,13 @@ import * as am5map from "@amcharts/amcharts5/map";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
 import am5geodata_worldLow from "@amcharts/amcharts5-geodata/worldLow";
 import "./index.scss"
-import { useGetCountry } from '../../services/countries/useGetCountry';
 
-type WorldMapProps = {}
+type WorldMapProps = {
+    onCountrySelect: (countryCode: string) => void
+}
 
-interface DataContext {
-    geometryType: string,
-    id: string,
-    madeFromGeoData: boolean,
-    name: string
-  }
-  
 
-const WorldMap = ({ }: WorldMapProps): JSX.Element => {
+const WorldMap = ({ onCountrySelect }: WorldMapProps) => {
 
     useEffect(() => {
 
@@ -56,8 +50,10 @@ const WorldMap = ({ }: WorldMapProps): JSX.Element => {
 
             let countryCode: string = Object(ev?.target?.dataItem?.dataContext)?.code;
 
-            useGetCountry(countryCode)
-           
+            onCountrySelect(countryCode)
+
+            //  useGetCountry(countryCode)
+
         });
     }, [])
 

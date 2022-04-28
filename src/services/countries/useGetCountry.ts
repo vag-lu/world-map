@@ -16,7 +16,7 @@ const GET_COUNTRY = gql`
     }
 `
 
-export const useGetCountry = (code: string) => {
+export const GetCountry = (code: string | undefined) => {
     const { data } = useQuery(GET_COUNTRY, {
         variables: {code : {code} }
     });
